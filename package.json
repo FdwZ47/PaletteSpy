@@ -1,0 +1,30 @@
+{
+  "name": "palette-spy",
+  "description": "Uncover the colors behind any website.",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wxt",
+    "dev:firefox": "wxt -b firefox",
+    "build": "wxt build",
+    "build:firefox": "wxt build -b firefox",
+    "zip": "wxt zip",
+    "zip:firefox": "wxt zip -b firefox",
+    "compile": "vue-tsc --noEmit",
+    "postinstall": "wxt prepare"
+  },
+  "dependencies": {
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@wxt-dev/module-vue": "^1.0.3",
+    "sass": "^1.93.2",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.1.0",
+    "wxt": "^0.20.11"
+  },
+  "trustedDependencies": [
+    "spawn-sync"
+  ]
+}
