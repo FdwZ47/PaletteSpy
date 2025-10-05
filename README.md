@@ -1,6 +1,8 @@
 # PaletteSpy
 
-A Chrome extension that lets you inspect and save color palettes and typography from any website with a simple hover and keypress.
+A Chrome extension that lets you inspect and save color palettes and fonts from any website with a simple hover and keypress.
+
+![Preview img](assets/dashb.svg)
 
 ## 🎨 Features
 
@@ -11,29 +13,29 @@ A Chrome extension that lets you inspect and save color palettes and typography 
 - **Organized Collection**: View all saved palettes in the popup
 - **One-Click Copy**: Copy CSS styles with a single click
 - **Per-Tab State**: Spy mode state persists when you reopen the popup (only in the same URL or path) 
-- **Auto Cleanup**: State automatically cleaned up when tabs close
+- **Auto Cleanup**: Mode automatically cleans up when tabs close
 
-## 🚀 Development
+![Preview img](assets/hover.svg)
 
-### Prerequisites
+### Must have
 
-- [Node.js](https://nodejs.org/) (v18 or higher)
-- [Bun](https://bun.sh/) (recommended) or npm
+- [Node.js](https://nodejs.org/) 
+- [Bun](https://bun.sh/) 
 
 ### Setup
 
 ```bash
-# Install dependencies
 bun install
 
-# Start dev server
 bun run dev
 
 # Build for prod
 bun run build
 
-# Create zip for Chrome Web Store
+# Create zip 
 bun zip
+
+# that's it!
 ```
 
 ### 📝 License
