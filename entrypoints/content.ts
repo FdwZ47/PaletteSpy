@@ -166,10 +166,7 @@ export default defineContentScript({
           
           showSaveConfirmation(false, 'Extension reloaded - please refresh page');
           return false;
-        }
-        
-        console.log('1️⃣ Input styles:', JSON.stringify(styles, null, 2));
-        
+        }        
         const paletteItem = {
           id: `palette_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
           timestamp: Date.now(),
@@ -188,20 +185,14 @@ export default defineContentScript({
           }
         };
         
-        console.log('2️⃣ Created palette item:', JSON.stringify(paletteItem, null, 2));
-
         let existingPalettes = [];
         try {
-          console.log('3️⃣ Fetching existing palettes from storage...');
-          const result = await browser.storage.local.get(['savedPalettes']);
-          console.log('4️⃣ Storage result:', result);
-          
+          const result = await browser.storage.local.get(['savedPalettes']);          
           existingPalettes = Array.isArray(result.savedPalettes) ? result.savedPalettes : [];
-          console.log(`5️⃣ Found ${existingPalettes.length} existing palette(s)`);
+
         } catch (getError) {
           if (getError instanceof Error && getError.message.includes('Extension context invalidated')) {
             console.error('⚠️ Extension context invalidated - please refresh the page');
-            console.groupEnd();
             showSaveConfirmation(false, 'Extension reloaded - refresh page');
             return false;
           }
@@ -210,16 +201,9 @@ export default defineContentScript({
         }
 
         const updatedPalettes = [...existingPalettes, paletteItem];
-        console.log(`6️⃣ Updated palette count: ${updatedPalettes.length}`);
 
-        console.log('7️⃣ Saving to storage...');
         await browser.storage.local.set({ savedPalettes: updatedPalettes });
-        console.log('8️⃣ ✅ Successfully saved to storage!');
 
-        const verification = await browser.storage.local.get(['savedPalettes']);
-        console.log(`9️⃣ Verification: Storage now contains ${verification.savedPalettes?.length || 0} items`);
-        
-        console.groupEnd();
         return true;
       } catch (error) {
         if (error instanceof Error && error.message.includes('Extension context invalidated')) {
@@ -429,15 +413,11 @@ export default defineContentScript({
       debounceTimeout = window.setTimeout(() => {
         lastHoveredElement = element;
         const extractedStyles = extractElementStyles(element);
-        
-        const tagInfo = `${element.tagName.toLowerCase()}${element.id ? '#' + element.id : ''}${element.className ? '.' + String(element.className).split(' ')[0] : ''}`;
-        
+                
         if (extractedStyles) {
-          console.log(`✅ Showing tooltip for: ${tagInfo}`);
           currentStyles = extractedStyles;
           showTooltip(element, currentStyles, event);
         } else {
-          console.log(`⏭️ Skipped (no interesting styles): ${tagInfo}`);
           if (currentTooltip) {
             currentTooltip.remove();
             currentTooltip = null;
@@ -453,9 +433,7 @@ export default defineContentScript({
       if (event.key.toLowerCase() === 's' && currentTooltip) {
         event.preventDefault();
         event.stopPropagation();
-        
-        console.log('📌 Save key pressed! Attempting to save...');
-        
+                
         if (currentTooltip) {
           currentTooltip.style.background = 'linear-gradient(135deg, rgba(76, 175, 80, 0.98), rgba(56, 142, 60, 0.98))';
           const savingMsg = currentTooltip.querySelector('div:last-child');
@@ -467,7 +445,6 @@ export default defineContentScript({
         const success = await saveToStorage(currentStyles);
         
         if (success) {
-          console.log('✅ Successfully saved!');
           if (currentTooltip) {
             const msg = currentTooltip.querySelector('div:last-child');
             if (msg) {
@@ -516,13 +493,11 @@ export default defineContentScript({
         document.body.style.cursor = 'crosshair';
         document.addEventListener('keydown', handleKeyPress);
         showSpyModeIndicator(true);
-        console.log('PaletteSpy: Activated! Hover over elements and press "S" to save.');
       } else {
         document.body.style.cursor = '';
         document.removeEventListener('keydown', handleKeyPress);
         handleMouseLeave();
         showSpyModeIndicator(false);
-        console.log('PaletteSpy: Deactivated');
       }
     }
 
@@ -571,7 +546,6 @@ export default defineContentScript({
     }
 
     browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-      console.log('PaletteSpy: Received message:', message);
       
       if (message.action === 'toggleSpyMode') {
         setSpyMode(message.active);
